@@ -7,7 +7,7 @@
 ```
 2. Создаем на сервере пользователя borg, который будет работать на наше благо + директорию .ssh
 ```
-# useradd -m 			
+# useradd -m borg 			
 # mkdir /var/backup
 # chown borg:borg /var/backup/
 

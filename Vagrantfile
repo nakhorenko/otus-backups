@@ -19,6 +19,12 @@ Vagrant.configure("2") do |config|
         vb.customize ['storagectl', :id, '--name', 'SATA', '--add', 'sata' ]
         vb.customize ['storageattach', :id, '--storagectl', 'SATA', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk]
       end
+    srv.vm.provision "ansible" do |ansible|
+            ansible.playbook = "ansible/playbooks/provision.yml"
+            ansible.inventory_path = "ansible/inventory"
+            ansible.host_key_checking = "false"
+            ansible.limit = "all"
+      end
     end
   end
 
