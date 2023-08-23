@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
       unless File.exist?(disk)
         vb.customize ['createhd', '--filename', disk, '--size', 2 * 1024]
       end
-        vb.customize ['storagectl', :id, '--name', 'SATA', '--add', 'sata' ]
+        #vb.customize ['storagectl', :id, '--name', 'SATA', '--add', 'sata' ]
         vb.customize ['storageattach', :id, '--storagectl', 'SATA', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk]
       end
     srv.vm.provision "ansible" do |ansible|

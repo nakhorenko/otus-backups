@@ -1,4 +1,42 @@
 - name: install deps to server
-  hosts: all
-  roles:
-   - prepare
+  hosts: "{{ run_hosts }}"
+  remote_user: vagrant
+  become: true
+
+  tasks:
+
+  - name: Install packages
+    ansible.builtin.yum:
+      name: "{{ item }}"
+      state: present
+      update_cache: true
+    loop:
+      - epel-release
+      - borgbackup
+      - nano
+    tags:
+      - packages
+
+  - name: Create borg user
+    ansible.builtin.user:
+      name: borg
+      state: present
+      shell: /bin/bash
+      createhome: true
+      home: /home/borg
+
+  - name: Create directory for backups
+    ansible.builtin.file:
+      path: /var/backup/
+      state: directory
+      owner: borg
+      group: borg
+      mode: 0700
+
+  - name: Create .ssh directory for borg user
+    ansible.builtin.file:
+      path: /home/borg/.ssh
+      state: directory
+      owner: borg
+      group: borg
+      mode: 0700
